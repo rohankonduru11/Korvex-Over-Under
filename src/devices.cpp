@@ -1,9 +1,9 @@
 #include "main.h"
 
-pros::Motor wallstake(9, pros::E_MOTOR_GEARSET_36, false);
+pros::Motor wallstake(-9, pros::E_MOTOR_GEARSET_36, false);
 pros::Motor intake1(20, pros::E_MOTOR_GEARSET_06, false);
 
-pros::ADIDigitalOut mogo('H', true);
+pros::ADIDigitalOut mogo('H', false);
 pros::ADIDigitalOut doinker('F', false);
 pros::ADIDigitalOut intakelift('G', false);
 pros::ADIDigitalOut Goalrush('E', false);

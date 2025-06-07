@@ -378,11 +378,11 @@ void autonomous() {
 void sorting_task() {
     pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
     colorsort.set_led_pwm(100);
-    bool isRedTeam = true;
+    bool isRedTeam = false;
     pros::Optical colorsort(7);
     colorsort.set_led_pwm(25);
     bool isColorSortEnabled = true;
-    bool ringholder = true;
+
     while (true) {
       if (master.get_digital_new_press(DIGITAL_LEFT)){
       if (isColorSortEnabled == true){
@@ -395,7 +395,6 @@ void sorting_task() {
       int hue = colorsort.get_hue();
       if (colorsort.get_hue()>180 && colorsort.get_hue()<230) //blue is 240, red is 0 
       if(isRedTeam == true)
-      if(ringholder == false)
       if(colorsort.get_proximity() == 255)
       if(isColorSortEnabled == true){
         pros::delay(145);
@@ -408,31 +407,29 @@ void sorting_task() {
 
       }
     
-      if (colorsort.get_hue()>0)//blue is 240, red is 0
+      if (colorsort.get_hue()>0 && colorsort.get_hue()<40)//blue is 240, red is 0
       if(isRedTeam == false)
-      if(ringholder == false)
       if(colorsort.get_proximity() == 255)
       if(isColorSortEnabled == true){
+        pros::delay(145);
+        intake1.move(127);
+        pros::delay(250);
         intake1.move(-127);
-        pros::delay(10000000);
 
         printf("Hue: %d\n", hue);
 
         intake1.move_voltage(-12000);
         
+    
       }
+
       intake1.move(intake_speed);
       pros::delay(ez::util::DELAY_TIME);
 
-      //if(ringholder == true)
-      //if(colorsort.get_proximity() == 255)
-      //if(colorsort.get_hue()>0) {
-        //intake_speed = 0;
-        //printf("Hue: %d\n", hue);
-     // }
     }
 }
 pros::Task SORTING_TASK(sorting_task);
+
 
 
 /**
@@ -457,15 +454,14 @@ void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   wallstake.set_brake_mode(MOTOR_BRAKE_HOLD);
-  pros::Motor intake1(20);
-  pros::Motor wallstake(9);
+  pros::Motor wallstake(-9);
   pros::Rotation rotation_sensor(10);
   pros::IMU imu(8);
-  pros::ADIDigitalOut mogo('H', true);
+  pros::ADIDigitalOut mogo('H', false);
   pros::ADIDigitalOut doinker('F', false);
   pros::ADIDigitalOut intakelift('G', false);
   pros::ADIDigitalOut Goalrush('E', false);
-
+  pros::Motor intake1(20);
   pros::Controller master(pros::E_CONTROLLER_MASTER);
   bool isColorSortEnabled = true;
   while (true) {
@@ -494,6 +490,7 @@ void opcontrol() {
     else{
        intake_speed = 0;
     }
+
 
      
 	if(master.get_digital_new_press(DIGITAL_X)){
@@ -563,8 +560,8 @@ void nextState() {
 
 
 void liftControl() {
-    float kp = 0.02;
-    float kd = 2;
+    float kp = 0.01;
+    float kd = 0.1;
     float error = target - rotation_sensor.get_position();
     float velocity = kp * error;
     wallstake.move(velocity);
