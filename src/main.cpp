@@ -560,6 +560,7 @@ void nextState() {
 
 
 void liftControl() {
+    
     float kp = 0.01;
     float kd = 0.1;
     float error = target - rotation_sensor.get_position();
