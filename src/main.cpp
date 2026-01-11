@@ -15,18 +15,18 @@ using namespace std;
 Drive chassis (
   // Left Chassis Ports (negati	cve port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  {-18, -17, -19}
+  {-1, -2, -11}
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  ,{16, 14, 12}	
+  ,{10, 9, 20}	
 
   // IMU Port
   ,8
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
-  ,3.25
+  ,2.75
 
   // Cartridge RPM
   //   (or tick per rotation if using tracking wheels)
@@ -141,13 +141,6 @@ static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::Task liftControlTask([]{
-        while (true) {
-            liftControl();
-            pros::delay(10);
-        }
-    });
-
     rotation_sensor.reset_position();
 
 
@@ -342,32 +335,6 @@ void autonomous() {
 	}	
 
 	switch(autonSelection) {
-		case autonStates::safewp:
-			safewp();
-			break;
-		case autonStates::solowp:
-			solowp();
-			break;
-
-    case autonStates::bluegoalrush:
-			bluegoalrush();
-			break;
-
-    case autonStates::goalrush:
-			goalrush();
-			break;
-    
-    case autonStates::Elims:
-    Elims();
-    break;
-    
-    case autonStates::redElims:
-			redElims();
-      break;
-      
-		case autonStates::Skills:
-			Skills();
-			break;
 		case autonStates::test:
 			test();
 			break;
@@ -457,17 +424,15 @@ void opcontrol() {
   pros::Motor wallstake(-9);
   pros::Rotation rotation_sensor(10);
   pros::IMU imu(8);
-  pros::ADIDigitalOut mogo('H', false);
-  pros::ADIDigitalOut doinker('F', false);
-  pros::ADIDigitalOut intakelift('G', false);
-  pros::ADIDigitalOut Goalrush('E', false);
-  pros::Motor intake1(20);
+  pros::ADIDigitalOut middlegoal('H', false);
+  pros::ADIDigitalOut wing('G', false);
+  pros::ADIDigitalOut scraper('A', false);
+  pros::Motor intake1(3);
+  pros::Motor intake2(14);
   pros::Controller master(pros::E_CONTROLLER_MASTER);
-  bool isColorSortEnabled = true;
+  
   while (true) {
-  if (master.get_digital_new_press(DIGITAL_R1)) {
-    nextState();
-  }
+  
   
 
 
@@ -481,101 +446,62 @@ void opcontrol() {
     // Put more user control code here!
     // . . .
     // intake code
-   if (master.get_digital(DIGITAL_L2)){
-       intake_speed = 127;
-      }
-   else if(master.get_digital(DIGITAL_L1)){
-       intake_speed = -127;
+    if(master.get_digital(DIGITAL_L1)){
+        intake1.move_voltage(-12000);
+  }  
+    
+    else if(master.get_digital(DIGITAL_L2)){
+        intake1.move_voltage(12000);
     }
     else{
-       intake_speed = 0;
+        intake1.move_voltage(0);
     }
+
+    if(master.get_digital(DIGITAL_R1)){
+        intake2.move_voltage(12000);
+  }  
+    
+    else if(master.get_digital(DIGITAL_R2)){
+        intake2.move_voltage(-12000);
+    }
+    else{
+        intake2.move_voltage(0);
+    }
+
 
 
      
 	if(master.get_digital_new_press(DIGITAL_X)){
       if(clamp1 == false) {
-          doinker.set_value(true);
+          middlegoal.set_value(true);
 		  clamp1 = true;
       }	
 	  else if(clamp1 == true) {
-          doinker.set_value(false);
+          middlegoal.set_value(false);
 		  clamp1 = false;
       }
 	}
 
-  if(master.get_digital_new_press(DIGITAL_A)){
-    if(clamp3 == false) {
-        intakelift.set_value(true);
-    clamp3 = true;
-    }	
-  else if(clamp3 == true) {
-        intakelift.set_value(false);
-    clamp3 = false;
-    }
-}
 
 	if(master.get_digital_new_press(DIGITAL_UP)) {
 		if(clamp2 == false) {
-			mogo.set_value(true);
+			wing.set_value(true);
 			clamp2 = true;
 		} 
 		else if(clamp2 == true) {
-			mogo.set_value(false);
+			wing.set_value(false);
 			clamp2 = false;
 		}
   }
-
-  if(master.get_digital_new_press(DIGITAL_Y)) {
-		if(clamp4 == false) {
-			Goalrush.set_value(true);
-			clamp4 = true;
+  	if(master.get_digital_new_press(DIGITAL_UP)) {
+		if(clamp3 == false) {
+			scraper.set_value(true);
+			clamp3 = true;
 		} 
-		else if(clamp4 == true) {
-			Goalrush.set_value(false);
-			clamp4 = false;
+		else if(clamp3 == true) {
+			scraper.set_value(false);
+			clamp3 = false;
 		}
   }
-    pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
-  
-
 }
-
 }
-//const int numStates = 6;
-//make sure these are in centidegrees (1 degree = 100 centidegrees)
-//int states[numStates] = {0, -2300, -14000, -9000, -27000, -23000};
-int currState = 0;
-//int target = 0;
-
-
-void nextState() {
-    currState += 1;
-    if (currState == numStates - 3) {
-        currState = 0;
-    }
-    target = states[currState];
-}
-
-
-
-void liftControl() {
-    
-    float kp = 0.01;
-    float kd = 0.1;
-    float error = target - rotation_sensor.get_position();
-    float velocity = kp * error;
-    wallstake.move(velocity);
-    if (master.get_digital_new_press(DIGITAL_R2)) {
-      target = states[3];
-  }
-    if (master.get_digital_new_press(DIGITAL_B)) {
-      target = states[4];
-    }
-    if (master.get_digital_new_press(DIGITAL_DOWN)) {
-      target = states[5];
-    }
-}
-
-
-

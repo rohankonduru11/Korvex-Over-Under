@@ -1,15 +1,14 @@
 #include "main.h"
-
 extern pros::Motor intake1;
+extern pros::Motor intake2;
 
 extern pros::Motor wallstake;
 extern pros::Rotation rotation_sensor;
 extern pros::Optical colorsort;
 
-extern pros::ADIDigitalOut mogo;
-extern pros::ADIDigitalOut doinker;
-extern pros::ADIDigitalOut intakelift;
-extern pros::ADIDigitalOut Goalrush;
+extern pros::ADIDigitalOut middlegoal;
+extern pros::ADIDigitalOut wing;
+extern pros::ADIDigitalOut scraper;
 extern pros::Motor lF;
 extern pros::Motor lB;
 extern pros::Motor lB2;

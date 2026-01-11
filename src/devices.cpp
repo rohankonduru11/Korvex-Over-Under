@@ -1,20 +1,20 @@
 #include "main.h"
 
 pros::Motor wallstake(-9, pros::E_MOTOR_GEARSET_36, false);
-pros::Motor intake1(20, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor intake1(3, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor intake2(14, pros::E_MOTOR_GEARSET_06, false);
 
-pros::ADIDigitalOut mogo('H', false);
-pros::ADIDigitalOut doinker('F', false);
-pros::ADIDigitalOut intakelift('G', false);
-pros::ADIDigitalOut Goalrush('E', false);
+pros::ADIDigitalOut middlegoal('H', false);
+pros::ADIDigitalOut wing('G', false);
+pros::ADIDigitalOut scraper('A', false);
 
-pros::Motor lF(-18, pros::E_MOTOR_GEARSET_06); // left front motor. port 9, reversed
-pros::Motor lB(-17, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
-pros::Motor lB2(-19, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
+pros::Motor lF(-1, pros::E_MOTOR_GEARSET_06); // left front motor. port 9, reversed
+pros::Motor lB(-2, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
+pros::Motor lB2(-11, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
 
-pros::Motor rF(16, pros::E_MOTOR_GEARSET_06); // right front motor. port 12
-pros::Motor rB(14, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
-pros::Motor rB2(12, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
+pros::Motor rF(10, pros::E_MOTOR_GEARSET_06); // right front motor. port 12
+pros::Motor rB(9, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
+pros::Motor rB2(20, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
  
 
 // motor groups
