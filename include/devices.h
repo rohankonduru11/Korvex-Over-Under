@@ -7,7 +7,7 @@ extern pros::Rotation rotation_sensor;
 extern pros::Optical colorsort;
 
 extern pros::ADIDigitalOut middlegoal;
-extern pros::ADIDigitalOut wing;
+extern pros::ADIDigitalOut descore;
 extern pros::ADIDigitalOut scraper;
 extern pros::Motor lF;
 extern pros::Motor lB;

@@ -123,12 +123,32 @@ void drive_and_turn() {
   chassis.wait_drive();
 }
 
-
-
-
- 
+void soloWp(){
+  chassis.set_drive_pid(36, DRIVE_SPEED, true);
+  chassis.wait_until(34);  
+  }
+void sevenball(){
+  
+  }
+void midandlong(){
     
-	void test(){
+  }
+
+
+void RedRush(){
+    
+  }
+
+void BlueRush(){
+    
+  }
+
+
+void test(){
+    
+  }
+
+void Skills(){
     
   }
 

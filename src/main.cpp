@@ -19,10 +19,10 @@ Drive chassis (
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  ,{10, 9, 20}	
+  ,{10, 8, 20}	
 
   // IMU Port
-  ,8
+  ,6
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -57,11 +57,10 @@ Drive chassis (
 enum class autonStates { // the possible auton selections
 	off,
 	solowp,
-	safewp,
-  goalrush,
-  bluegoalrush,
-	Elims,
-  redElims,
+  sevenball,
+  Redrush,
+  midandlong,
+  Bluerush,
 	Skills,
 	test
 };
@@ -69,42 +68,34 @@ enum class autonStates { // the possible auton selections
 
 autonStates autonSelection = autonStates::off;
 
-static lv_res_t BlueLeftBtnAction(lv_obj_t *btn) {
-    autonSelection = autonStates::safewp;
-    std::cout << pros::millis() << "BlueLeft" << std::endl;
+static lv_res_t SoloWpAction(lv_obj_t *btn) {
+    autonSelection = autonStates::solowp;
+    std::cout << pros::millis() << "Solowp" << std::endl;
     return LV_RES_OK;
 }
 
-static lv_res_t RedRightBtnAction(lv_obj_t *btn) {
-	autonSelection = autonStates::solowp;
-	std::cout << pros::millis() << "RedRight" << std::endl;
+static lv_res_t SevenBallAction(lv_obj_t *btn) {
+	autonSelection = autonStates::sevenball;
+	std::cout << pros::millis() << "sevenball" << std::endl;
 	return LV_RES_OK;
 }
 
-static lv_res_t RedSoloWPBtnAction(lv_obj_t *btn) {
-	autonSelection = autonStates::redElims;
-	std::cout << pros::millis() << "RedSoloWP" << std::endl;
+static lv_res_t RedRushAction(lv_obj_t *btn) {
+	autonSelection = autonStates::Redrush;
+	std::cout << pros::millis() << "Redrush" << std::endl;
 	return LV_RES_OK;
 }
 
-static lv_res_t RedLeftBtnAction(lv_obj_t *btn) {
-	autonSelection = autonStates::goalrush;
-	std::cout << pros::millis() << "RedLeft" << std::endl;
+static lv_res_t MidAndLongAction(lv_obj_t *btn) {
+	autonSelection = autonStates::midandlong;
+	std::cout << pros::millis() << "midandlong" << std::endl;
 	return LV_RES_OK;
 }
-
-static lv_res_t BlueSoloWPBtnAction(lv_obj_t *btn) {
-	autonSelection = autonStates::Elims;
-	std::cout << pros::millis() << "BlueSoloWP" << std::endl;
+static lv_res_t BlueRushAction(lv_obj_t *btn) {
+	autonSelection = autonStates::Bluerush;
+	std::cout << pros::millis() << "Bluerush" << std::endl;
 	return LV_RES_OK;
 }
-
-static lv_res_t BlueRightBtnAction(lv_obj_t *btn) {
-	autonSelection = autonStates::bluegoalrush;
-	std::cout << pros::millis() << "BlueRight" << std::endl;
-	return LV_RES_OK;
-}
-
 static lv_res_t SkillsBtnAction(lv_obj_t *btn) {
 	autonSelection = autonStates::Skills;
 	std::cout << pros::millis() << "Skills" << std::endl;
@@ -159,76 +150,67 @@ void initialize() {
 	lv_obj_t *tabview = lv_tabview_create(lv_scr_act(), NULL);
 
 	//button layout
-	lv_obj_t *RedTab = lv_tabview_add_tab(tabview, "Red");
-	lv_obj_t *BlueTab = lv_tabview_add_tab(tabview, "Blue");
+	lv_obj_t *LeftTab = lv_tabview_add_tab(tabview, "Left");
+	lv_obj_t *RightTab = lv_tabview_add_tab(tabview, "Right");
 	lv_obj_t *SkillsTab = lv_tabview_add_tab(tabview, "Skills");
 	lv_obj_t *OffTab = lv_tabview_add_tab(tabview, "Turn Off");
 	
 
 	// Red tab
-	lv_obj_t *RedLeftBtn = lv_btn_create(RedTab, NULL);
-	lv_obj_t *labelRedLeft = lv_label_create(RedLeftBtn, NULL);
+	lv_obj_t *SoloWpBtn = lv_btn_create(RightTab, NULL);
+	lv_obj_t *labelSoloWp = lv_label_create(SoloWpBtn, NULL);
 
-	lv_obj_t *RedRightBtn = lv_btn_create(RedTab, NULL);
-	lv_obj_t *labelRedRight = lv_label_create(RedRightBtn, NULL);
+	lv_obj_t *SevenBallBtn = lv_btn_create(RightTab, NULL);
+	lv_obj_t *labelSevenBall = lv_label_create(SevenBallBtn, NULL);
 
-	lv_obj_t *RedSoloWPBtn = lv_btn_create(RedTab, NULL);
-	lv_obj_t *labelRedSolo = lv_label_create(RedSoloWPBtn, NULL);
+	lv_obj_t *RedRushBtn = lv_btn_create(RightTab, NULL);
+	lv_obj_t *labelRedRush = lv_label_create(RedRushBtn, NULL);
 
 
 	
 
 	// Blue tab
-	lv_obj_t *BlueLeftBtn = lv_btn_create(BlueTab, NULL);
-	lv_obj_t *labelBlueLeft = lv_label_create(BlueLeftBtn, NULL);
+	lv_obj_t *MidAndLongBtn = lv_btn_create(LeftTab, NULL);
+	lv_obj_t *labelMidAndLong = lv_label_create(MidAndLongBtn, NULL);
 
-	lv_obj_t *BlueRightBtn = lv_btn_create(BlueTab, NULL);
-	lv_obj_t *labelBlueRight = lv_label_create(BlueRightBtn, NULL);
+	lv_obj_t *BlueRushBtn = lv_btn_create(LeftTab, NULL);
+	lv_obj_t *labelBlueRush = lv_label_create(BlueRushBtn, NULL);
 
-	lv_obj_t *BlueSoloWPBtn = lv_btn_create(BlueTab, NULL);
-	lv_obj_t *labelBlueSolo = lv_label_create(BlueSoloWPBtn, NULL);
+	lv_label_set_text(labelSoloWp, "solowp");
+  lv_btn_set_action(SoloWpBtn, LV_BTN_ACTION_CLICK, SoloWpAction);
+  lv_obj_set_size(SoloWpBtn, 150, 50);
+  lv_btnm_set_toggle(SoloWpBtn, true, 1);
+  lv_obj_set_pos(SoloWpBtn, 0, 0);
+  lv_obj_align(SoloWpBtn, NULL, LV_ALIGN_CENTER, -150, 0);
 
-	lv_label_set_text(labelBlueLeft, "safewp");
-  lv_btn_set_action(BlueLeftBtn, LV_BTN_ACTION_CLICK, BlueLeftBtnAction);
-  lv_obj_set_size(BlueLeftBtn, 150, 50);
-  lv_btnm_set_toggle(BlueLeftBtn, true, 1);
-  lv_obj_set_pos(BlueLeftBtn, 0, 0);
-  lv_obj_align(BlueLeftBtn, NULL, LV_ALIGN_CENTER, -150, 0);
+	lv_label_set_text(labelSevenBall, "Sevenball");
+	lv_btn_set_action(SevenBallBtn, LV_BTN_ACTION_CLICK, SevenBallAction);
+	lv_obj_set_size(SevenBallBtn, 150, 50);
+	lv_btnm_set_toggle(SevenBallBtn, true, 1);
+	lv_obj_set_pos(SevenBallBtn, 0, 0);
+	lv_obj_align(SevenBallBtn, NULL, LV_ALIGN_CENTER, 0, 0);
 
-	lv_label_set_text(labelRedRight, "solowp");
-	lv_btn_set_action(RedRightBtn, LV_BTN_ACTION_CLICK, RedRightBtnAction);
-	lv_obj_set_size(RedRightBtn, 150, 50);
-	lv_btnm_set_toggle(RedRightBtn, true, 1);
-	lv_obj_set_pos(RedRightBtn, 0, 0);
-	lv_obj_align(RedRightBtn, NULL, LV_ALIGN_CENTER, 0, 0);
-
-  lv_label_set_text(labelRedLeft, "goalrush");
-	lv_btn_set_action(RedLeftBtn, LV_BTN_ACTION_CLICK, RedLeftBtnAction);
-	lv_obj_set_size(RedLeftBtn, 150, 50);
-	lv_btnm_set_toggle(RedLeftBtn, true, 1);
-	lv_obj_set_pos(RedLeftBtn, 0, 0);
-	lv_obj_align(RedLeftBtn, NULL, LV_ALIGN_CENTER, -150, 0);
+  lv_label_set_text(labelRedRush, "Redrush");
+	lv_btn_set_action(RedRushBtn, LV_BTN_ACTION_CLICK, RedRushAction);
+	lv_obj_set_size(RedRushBtn, 150, 50);
+	lv_btnm_set_toggle(RedRushBtn, true, 1);
+	lv_obj_set_pos(RedRushBtn, 0, 0);
+	lv_obj_align(RedRushBtn, NULL, LV_ALIGN_CENTER, -150, 0);
   
-  lv_label_set_text(labelBlueRight, "bluegoalrush");
-  lv_btn_set_action(BlueRightBtn, LV_BTN_ACTION_CLICK, BlueRightBtnAction);
-  lv_obj_set_size(BlueRightBtn, 150, 50);
-  lv_btnm_set_toggle(BlueRightBtn, true, 1);
-  lv_obj_set_pos(BlueRightBtn, 0, 0);
-  lv_obj_align(BlueRightBtn, NULL, LV_ALIGN_CENTER, 0, 0);
+  lv_label_set_text(labelMidAndLong, "midandlong");
+  lv_btn_set_action(MidAndLongBtn, LV_BTN_ACTION_CLICK, MidAndLongAction);
+  lv_obj_set_size(MidAndLongBtn, 150, 50);
+  lv_btnm_set_toggle(MidAndLongBtn, true, 1);
+  lv_obj_set_pos(MidAndLongBtn, 0, 0);
+  lv_obj_align(MidAndLongBtn, NULL, LV_ALIGN_CENTER, 0, 0);
 
-  lv_label_set_text(labelRedSolo, "redElims");
-  lv_btn_set_action(RedSoloWPBtn, LV_BTN_ACTION_CLICK, RedLeftBtnAction);
-  lv_obj_set_size(RedSoloWPBtn, 150, 50);
-  lv_btnm_set_toggle(RedSoloWPBtn, true, 1);
-  lv_obj_set_pos(RedSoloWPBtn, 0, 0);
-  lv_obj_align(RedSoloWPBtn, NULL, LV_ALIGN_CENTER, 150, 0);
+  lv_label_set_text(labelBlueRush, "bluerush");
+  lv_btn_set_action(BlueRushBtn, LV_BTN_ACTION_CLICK, BlueRushAction);
+  lv_obj_set_size(BlueRushBtn, 150, 50);
+  lv_btnm_set_toggle(BlueRushBtn, true, 1);
+  lv_obj_set_pos(BlueRushBtn, 0, 0);
+  lv_obj_align(BlueRushBtn, NULL, LV_ALIGN_CENTER, 150, 0);
 
-	lv_label_set_text(labelBlueSolo, "Elims");
-	lv_btn_set_action(BlueSoloWPBtn, LV_BTN_ACTION_CLICK, BlueSoloWPBtnAction);
-	lv_obj_set_size(BlueSoloWPBtn, 150, 50);
-	lv_btnm_set_toggle(BlueSoloWPBtn, true, 1);
-	lv_obj_set_pos(BlueSoloWPBtn, 0, 0);
-	lv_obj_align(BlueSoloWPBtn, NULL, LV_ALIGN_CENTER, 150, 0);
 	
 
 	//DiagonalDouble tab
@@ -342,61 +324,6 @@ void autonomous() {
 			break;
 	}
 }
-void sorting_task() {
-    pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
-    colorsort.set_led_pwm(100);
-    bool isRedTeam = false;
-    pros::Optical colorsort(7);
-    colorsort.set_led_pwm(25);
-    bool isColorSortEnabled = true;
-
-    while (true) {
-      if (master.get_digital_new_press(DIGITAL_LEFT)){
-      if (isColorSortEnabled == true){
-        isColorSortEnabled = false;
-      }
-      else if (isColorSortEnabled == false) {
-        isColorSortEnabled = true;
-      }
-      }
-      int hue = colorsort.get_hue();
-      if (colorsort.get_hue()>180 && colorsort.get_hue()<230) //blue is 240, red is 0 
-      if(isRedTeam == true)
-      if(colorsort.get_proximity() == 255)
-      if(isColorSortEnabled == true){
-        pros::delay(145);
-        intake1.move(127);
-        pros::delay(250);
-        intake1.move(-127);
-        printf("Hue: %d\n", hue);
-
-        intake1.move_voltage(-12000);
-
-      }
-    
-      if (colorsort.get_hue()>0 && colorsort.get_hue()<40)//blue is 240, red is 0
-      if(isRedTeam == false)
-      if(colorsort.get_proximity() == 255)
-      if(isColorSortEnabled == true){
-        pros::delay(145);
-        intake1.move(127);
-        pros::delay(250);
-        intake1.move(-127);
-
-        printf("Hue: %d\n", hue);
-
-        intake1.move_voltage(-12000);
-        
-    
-      }
-
-      intake1.move(intake_speed);
-      pros::delay(ez::util::DELAY_TIME);
-
-    }
-}
-pros::Task SORTING_TASK(sorting_task);
-
 
 
 /**
@@ -415,7 +342,6 @@ pros::Task SORTING_TASK(sorting_task);
 bool clamp1 = false;
 bool clamp2 = false;
 bool clamp3 = false;
-bool clamp4 = false;
 
 void opcontrol() {
   // This is preference to what you like to drive on.
@@ -425,8 +351,8 @@ void opcontrol() {
   pros::Rotation rotation_sensor(10);
   pros::IMU imu(8);
   pros::ADIDigitalOut middlegoal('H', false);
-  pros::ADIDigitalOut wing('G', false);
-  pros::ADIDigitalOut scraper('A', false);
+  pros::ADIDigitalOut descore('F', false);
+  pros::ADIDigitalOut scraper('B', false);
   pros::Motor intake1(3);
   pros::Motor intake2(14);
   pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -483,25 +409,27 @@ void opcontrol() {
 	}
 
 
-	if(master.get_digital_new_press(DIGITAL_UP)) {
-		if(clamp2 == false) {
-			wing.set_value(true);
-			clamp2 = true;
-		} 
-		else if(clamp2 == true) {
-			wing.set_value(false);
-			clamp2 = false;
-		}
+  if(master.get_digital_new_press(DIGITAL_B)) {
+    if(clamp2 == false) {
+        descore.set_value(true);
+        clamp2 = true;
+      }
+    else if(clamp2 == true) {
+        descore.set_value(false);
+        clamp2 = false;
+      }
   }
-  	if(master.get_digital_new_press(DIGITAL_UP)) {
-		if(clamp3 == false) {
-			scraper.set_value(true);
-			clamp3 = true;
-		} 
-		else if(clamp3 == true) {
-			scraper.set_value(false);
-			clamp3 = false;
-		}
-  }
+
+
+  if(master.get_digital_new_press(DIGITAL_DOWN)) {
+    if(clamp3 == false) {
+        scraper.set_value(true);
+        clamp3 = true;
+      }
+    else if(clamp3 == true) {
+        scraper.set_value(false);
+        clamp3 = false;
+      }
 }
+  }
 }
