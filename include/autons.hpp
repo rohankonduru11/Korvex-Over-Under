@@ -19,10 +19,9 @@ void exit_condition_defaults();
 void modified_exit_condition();
 
 void solowp();
-void safewp();
-void Elims();
+void sevenball();
+void midandlong();
+void RedRush();
+void BlueRush();
 void Skills();
 void test();
-void goalrush();
-void bluegoalrush();
-void redElims();

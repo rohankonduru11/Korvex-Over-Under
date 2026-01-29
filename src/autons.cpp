@@ -123,7 +123,7 @@ void drive_and_turn() {
   chassis.wait_drive();
 }
 
-void soloWp(){
+void solowp(){
   chassis.set_drive_pid(36, DRIVE_SPEED, true);
   chassis.wait_until(34);  
   }

@@ -22,7 +22,7 @@ Drive chassis (
   ,{10, 8, 20}	
 
   // IMU Port
-  ,19
+  ,18
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -52,8 +52,8 @@ Drive chassis (
   // Uncomment if tracking wheels are plugged into a 3 wire expander
   // 3 Wire Port Expander Smart Port
   // ,1
+  
 );
-
 enum class autonStates { // the possible auton selections
 	off,
 	solowp,
@@ -64,7 +64,6 @@ enum class autonStates { // the possible auton selections
 	Skills,
 	test
 };
-
 
 autonStates autonSelection = autonStates::off;
 
@@ -107,7 +106,7 @@ static lv_res_t ResetBtnAction(lv_obj_t *btn) {
 
 	leftMotors.tare_position();
 	rightMotors.tare_position();
-
+  int start = pros::millis();
 	while (imu.is_calibrating() and pros::millis() < 5000)
 	{
 		pros::delay(10);
@@ -115,7 +114,6 @@ static lv_res_t ResetBtnAction(lv_obj_t *btn) {
 	if (pros::millis() < 5000) std::cout << pros::millis() << ": finished calibrating!" << std::endl;
 	return LV_RES_OK;
 }
-
 static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
 	autonSelection = autonStates::off;
 	std::cout << pros::millis() << "None" << std::endl;
@@ -132,8 +130,10 @@ static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
-	
+  pros::delay(500);
+  imu.reset();
+  pros::delay(500);
+  imu.reset();
   // Print our branding over your terminal :D
 	lv_theme_t *th = lv_theme_alien_init(360, NULL); //Set a HUE value and keep font default RED
 	lv_theme_set_current(th);
@@ -259,7 +259,6 @@ void initialize() {
   // Initialize chassis and auton selector
 
   chassis.initialize();
-  ez::as::initialize();
 }
 
 
@@ -312,6 +311,24 @@ void autonomous() {
 	}	
 
 	switch(autonSelection) {
+    case autonStates::sevenball:
+      sevenball();
+      break;
+    case autonStates::solowp:
+			solowp();
+			break;
+    case autonStates::Redrush:
+      RedRush();
+      break;
+    case autonStates::midandlong:
+			midandlong();
+			break;
+    case autonStates::Bluerush:
+			BlueRush();
+			break;
+    case autonStates::Skills:
+			Skills();
+			break;
 		case autonStates::test:
 			test();
 			break;
@@ -341,7 +358,6 @@ bool clamp3 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  pros::IMU imu(19);
   pros::ADIDigitalOut middlegoal('H', false);
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);
