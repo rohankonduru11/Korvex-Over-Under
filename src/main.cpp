@@ -22,7 +22,7 @@ Drive chassis (
   ,{10, 8, 20}	
 
   // IMU Port
-  ,6
+  ,19
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -132,16 +132,9 @@ static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    rotation_sensor.reset_position();
-
 
 	
   // Print our branding over your terminal :D
-  
-	pros::delay(500); // Stop the user from doing anything while legacy ports configure.
-  	imu.reset();	
-	pros::delay(500); // Stop the user from doing anything while legacy ports configure.
-  	imu.reset();	
 	lv_theme_t *th = lv_theme_alien_init(360, NULL); //Set a HUE value and keep font default RED
 	lv_theme_set_current(th);
 
@@ -264,7 +257,9 @@ void initialize() {
   
 
   // Initialize chassis and auton selector
+
   chassis.initialize();
+  ez::as::initialize();
 }
 
 
@@ -346,10 +341,7 @@ bool clamp3 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  wallstake.set_brake_mode(MOTOR_BRAKE_HOLD);
-  pros::Motor wallstake(-9);
-  pros::Rotation rotation_sensor(10);
-  pros::IMU imu(8);
+  pros::IMU imu(19);
   pros::ADIDigitalOut middlegoal('H', false);
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);

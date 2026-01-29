@@ -2,10 +2,6 @@
 extern pros::Motor intake1;
 extern pros::Motor intake2;
 
-extern pros::Motor wallstake;
-extern pros::Rotation rotation_sensor;
-extern pros::Optical colorsort;
-
 extern pros::ADIDigitalOut middlegoal;
 extern pros::ADIDigitalOut descore;
 extern pros::ADIDigitalOut scraper;

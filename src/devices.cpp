@@ -20,6 +20,4 @@ pros::Motor rB2(20, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
 // motor groups
 pros::MotorGroup leftMotors({lF, lB2, lB}); // left motor group
 pros::MotorGroup rightMotors({rF, rB2, rB}); // right motor group
-pros::Imu imu(8);
-pros::Rotation rotation_sensor(10);
-pros::Optical colorsort(7);
+pros::Imu imu(19);
