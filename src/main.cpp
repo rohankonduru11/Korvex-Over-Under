@@ -22,7 +22,7 @@ Drive chassis (
   ,{10, 8, 20}	
 
   // IMU Port
-  ,19
+  ,18
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -341,7 +341,7 @@ bool clamp3 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  pros::IMU imu(19);
+  pros::IMU imu(18);
   pros::ADIDigitalOut middlegoal('H', false);
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);
