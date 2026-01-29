@@ -358,6 +358,10 @@ bool clamp3 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+<<<<<<< HEAD
+=======
+  pros::IMU imu(18);
+>>>>>>> 3546d45b2160017e34aec7873fcbe8de7d512e86
   pros::ADIDigitalOut middlegoal('H', false);
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);
