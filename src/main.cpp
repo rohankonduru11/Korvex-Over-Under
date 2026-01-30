@@ -131,9 +131,6 @@ static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
  */
 void initialize() {
   pros::delay(500);
-  imu.reset();
-  pros::delay(500);
-  imu.reset();
   // Print our branding over your terminal :D
 	lv_theme_t *th = lv_theme_alien_init(360, NULL); //Set a HUE value and keep font default RED
 	lv_theme_set_current(th);
@@ -188,7 +185,7 @@ void initialize() {
 	lv_obj_set_size(RedRushBtn, 150, 50);
 	lv_btnm_set_toggle(RedRushBtn, true, 1);
 	lv_obj_set_pos(RedRushBtn, 0, 0);
-	lv_obj_align(RedRushBtn, NULL, LV_ALIGN_CENTER, -150, 0);
+	lv_obj_align(RedRushBtn, NULL, LV_ALIGN_CENTER, 150, 0);
   
   lv_label_set_text(labelMidAndLong, "midandlong");
   lv_btn_set_action(MidAndLongBtn, LV_BTN_ACTION_CLICK, MidAndLongAction);
@@ -354,7 +351,6 @@ void autonomous() {
 bool clamp1 = false;
 bool clamp2 = false;
 bool clamp3 = false;
-
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
