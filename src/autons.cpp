@@ -227,7 +227,7 @@ void sevenball(){
   pros::delay(1000);
   //scores on long goal
   intake2.move_voltage(0);
-  chassis.set_drive_pid(30, 60, true);  
+  chassis.set_drive_pid(30, 55, true);  
   chassis.wait_until(28);
   chassis.set_drive_pid(-3, 90, true);
   chassis.wait_until(-2);
@@ -383,6 +383,72 @@ void test(){
   }
 
 void Skills(){
+  chassis.set_drive_pid(10, DRIVE_SPEED, true);
+  chassis.wait_until(8);
+  intake1.move_voltage(-12000);
+  chassis.set_turn_pid(45, TURN_SPEED);
+  //turns for the 3 blokcs near middle goal
+  chassis.wait_drive();
+  scraper.set_value(true);
+  chassis.set_drive_pid(15, DRIVE_SPEED, true); 
+  chassis.wait_until(13);
+  pros::delay(300); 
+  //gets the 3 blocks from mid
+  chassis.set_turn_pid(120, 70);
+  chassis.wait_drive();
+  chassis.set_drive_pid(38, DRIVE_SPEED, true);  
+  chassis.wait_until(36);
+  chassis.set_turn_pid(180, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(-18, DRIVE_SPEED, true);  
+  chassis.wait_until(-16);
+  intake2.move_voltage(12000);  
+  pros::delay(1000);
+  //scores on long goal
+  intake2.move_voltage(0);
+  chassis.set_drive_pid(40, 55, true);  
+  chassis.wait_until(38);
+  chassis.set_drive_pid(-4, 90, true);
+  chassis.wait_until(-2);
+  chassis.set_drive_pid(4, 70, true);
+  chassis.wait_until(2);
+  pros::delay(250);
+  chassis.set_drive_pid(-4, 70, true);
+  chassis.wait_until(2);
+  chassis.set_drive_pid(4, 70, true);
+  chassis.wait_until(2);
+  pros::delay(2000); //adjusts
+  chassis.set_drive_pid(-30, DRIVE_SPEED, true);  
+  chassis.wait_until(-28);
+  intake2.move_voltage(12000);
+  pros::delay(2000);
+  intake2.move_voltage(0); 
+  scraper.set_value(false);
+  chassis.set_drive_pid(9, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  chassis.set_turn_pid(270, TURN_SPEED);
+  chassis.wait_drive();
+  descore.set_value(true);
+  chassis.set_drive_pid(-14, DRIVE_SPEED, true); 
+  chassis.wait_drive();
+  chassis.set_turn_pid(180, TURN_SPEED); //turn for the 3 blocks and get control
+  chassis.wait_drive();
+  chassis.set_drive_pid(-80, DRIVE_SPEED, true);
+  chassis.wait_until(-78);
+  chassis.set_turn_pid(270, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(5, DRIVE_SPEED, true);
+  chassis.wait_until(3);
+  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.wait_drive();
+  chassis.set_drive_pid(30, 55, true);  
+  chassis.wait_until(28);
+  chassis.set_drive_pid(-3, 90, true);
+  chassis.wait_until(-2);
+  chassis.set_drive_pid(3, 80, true);
+  chassis.wait_until(2);
+
+
     
   }
 
