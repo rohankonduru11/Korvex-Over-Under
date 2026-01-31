@@ -248,7 +248,7 @@ void sevenball(){
   chassis.wait_drive();
   chassis.set_turn_pid(180, TURN_SPEED); //turn for the 3 blocks and get control
   chassis.wait_drive();
-  chassis.set_drive_pid(-30, 80, true);
+  chassis.set_drive_pid(-30, 65, true);
   chassis.wait_until(-28);
   }
 void midandlong(){
