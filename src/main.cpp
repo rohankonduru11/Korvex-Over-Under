@@ -102,18 +102,18 @@ static lv_res_t SkillsBtnAction(lv_obj_t *btn) {
 }
 
 static lv_res_t ResetBtnAction(lv_obj_t *btn) {
-	imu.reset();
+  imu.reset();
 
-	leftMotors.tare_position();
-	rightMotors.tare_position();
+  leftMotors.tare_position();
+  rightMotors.tare_position();
   int start = pros::millis();
-	while (imu.is_calibrating() and pros::millis() < 5000)
-	{
-		pros::delay(10);
-	}
-	if (pros::millis() < 5000) std::cout << pros::millis() << ": finished calibrating!" << std::endl;
-	return LV_RES_OK;
-}
+  while (imu.is_calibrating() and pros::millis() < 6000)
+  {
+   pros::delay(10);
+    }
+  if (pros::millis() < 6000) std::cout << pros::millis() << ": finished calibrating!" << std::endl;
+  return LV_RES_OK;
+  }
 static lv_res_t noAutonBtnAction(lv_obj_t *btn) {
 	autonSelection = autonStates::off;
 	std::cout << pros::millis() << "None" << std::endl;
@@ -300,8 +300,6 @@ void autonomous() {
   chassis.reset_gyro(); // Reset gyro position to 0
   chassis.reset_drive_sensor(); // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
-
-  ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
   if(autonSelection == autonStates::off) {
 		autonSelection = autonStates::test;
