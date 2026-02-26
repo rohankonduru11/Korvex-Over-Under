@@ -19,6 +19,7 @@ void exit_condition_defaults();
 void modified_exit_condition();
 
 void solowp();
+void safewp();
 void sevenball();
 void midandlong();
 void RedRush();

@@ -56,6 +56,7 @@ Drive chassis (
 enum class autonStates { // the possible auton selections
 	off,
 	solowp,
+  safewp,
   sevenball,
   Redrush,
   midandlong,
@@ -69,6 +70,11 @@ autonStates autonSelection = autonStates::off;
 static lv_res_t SoloWpAction(lv_obj_t *btn) {
     autonSelection = autonStates::solowp;
     std::cout << pros::millis() << "Solowp" << std::endl;
+    return LV_RES_OK;
+}
+static lv_res_t SafeWpAction(lv_obj_t *btn) {
+    autonSelection = autonStates::safewp;
+    std::cout << pros::millis() << "Safewp" << std::endl;
     return LV_RES_OK;
 }
 
@@ -165,6 +171,9 @@ void initialize() {
 	lv_obj_t *BlueRushBtn = lv_btn_create(LeftTab, NULL);
 	lv_obj_t *labelBlueRush = lv_label_create(BlueRushBtn, NULL);
 
+  lv_obj_t *SafeWpBtn = lv_btn_create(LeftTab, NULL);
+	lv_obj_t *labelSafeWp = lv_label_create(SafeWpBtn, NULL);
+
 	lv_label_set_text(labelSoloWp, "solowp");
   lv_btn_set_action(SoloWpBtn, LV_BTN_ACTION_CLICK, SoloWpAction);
   lv_obj_set_size(SoloWpBtn, 150, 50);
@@ -199,6 +208,13 @@ void initialize() {
   lv_btnm_set_toggle(BlueRushBtn, true, 1);
   lv_obj_set_pos(BlueRushBtn, 0, 0);
   lv_obj_align(BlueRushBtn, NULL, LV_ALIGN_CENTER, 150, 0);
+
+    lv_label_set_text(labelSafeWp, "safewp");
+  lv_btn_set_action(SafeWpBtn, LV_BTN_ACTION_CLICK, SafeWpAction);
+  lv_obj_set_size(SafeWpBtn, 150, 50);
+  lv_btnm_set_toggle(SafeWpBtn, true, 1);
+  lv_obj_set_pos(SafeWpBtn, 0, 0);
+  lv_obj_align(SafeWpBtn, NULL, LV_ALIGN_CENTER, -150, 0);
 
 	
 
@@ -310,6 +326,9 @@ void autonomous() {
       break;
     case autonStates::solowp:
 			solowp();
+			break;
+    case autonStates::safewp:
+			safewp();
 			break;
     case autonStates::Redrush:
       RedRush();
