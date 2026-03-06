@@ -18,10 +18,10 @@ Drive chassis (
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  ,{10, 8, 20}	
+  ,{10, 8, 19}	
 
   // IMU Port
-  ,18
+  ,20
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -55,7 +55,7 @@ Drive chassis (
 );
 enum class autonStates { // the possible auton selections
 	off,
-	solowp,
+	BottomAndLong,
   safewp,
   sevenball,
   Redrush,
@@ -67,9 +67,9 @@ enum class autonStates { // the possible auton selections
 
 autonStates autonSelection = autonStates::off;
 
-static lv_res_t SoloWpAction(lv_obj_t *btn) {
-    autonSelection = autonStates::solowp;
-    std::cout << pros::millis() << "Solowp" << std::endl;
+static lv_res_t BottomAndLongAction(lv_obj_t *btn) {
+    autonSelection = autonStates::BottomAndLong;
+    std::cout << pros::millis() << "BottomAndLong" << std::endl;
     return LV_RES_OK;
 }
 static lv_res_t SafeWpAction(lv_obj_t *btn) {
@@ -152,8 +152,8 @@ void initialize() {
 	
 
 	// Red tab
-	lv_obj_t *SoloWpBtn = lv_btn_create(RightTab, NULL);
-	lv_obj_t *labelSoloWp = lv_label_create(SoloWpBtn, NULL);
+	lv_obj_t *BottomAndLongBtn = lv_btn_create(RightTab, NULL);
+	lv_obj_t *labelBottomAndLong = lv_label_create(BottomAndLongBtn, NULL);
 
 	lv_obj_t *SevenBallBtn = lv_btn_create(RightTab, NULL);
 	lv_obj_t *labelSevenBall = lv_label_create(SevenBallBtn, NULL);
@@ -174,12 +174,12 @@ void initialize() {
   lv_obj_t *SafeWpBtn = lv_btn_create(LeftTab, NULL);
 	lv_obj_t *labelSafeWp = lv_label_create(SafeWpBtn, NULL);
 
-	lv_label_set_text(labelSoloWp, "solowp");
-  lv_btn_set_action(SoloWpBtn, LV_BTN_ACTION_CLICK, SoloWpAction);
-  lv_obj_set_size(SoloWpBtn, 150, 50);
-  lv_btnm_set_toggle(SoloWpBtn, true, 1);
-  lv_obj_set_pos(SoloWpBtn, 0, 0);
-  lv_obj_align(SoloWpBtn, NULL, LV_ALIGN_CENTER, -150, 0);
+	lv_label_set_text(labelBottomAndLong, "BottomAndLong");
+  lv_btn_set_action(BottomAndLongBtn, LV_BTN_ACTION_CLICK, BottomAndLongAction);
+  lv_obj_set_size(BottomAndLongBtn, 150, 50);
+  lv_btnm_set_toggle(BottomAndLongBtn, true, 1);
+  lv_obj_set_pos(BottomAndLongBtn, 0, 0);
+  lv_obj_align(BottomAndLongBtn, NULL, LV_ALIGN_CENTER, -150, 0);
 
 	lv_label_set_text(labelSevenBall, "Sevenball");
 	lv_btn_set_action(SevenBallBtn, LV_BTN_ACTION_CLICK, SevenBallAction);
@@ -324,9 +324,9 @@ void autonomous() {
     case autonStates::sevenball:
       sevenball();
       break;
-    case autonStates::solowp:
-			solowp();
-			break;
+    case autonStates::BottomAndLong:
+      BottomAndLong();
+      break;
     case autonStates::safewp:
 			safewp();
 			break;
@@ -400,10 +400,12 @@ void opcontrol() {
     else if(master.get_digital(DIGITAL_L2)){
         intake1.move_voltage(12000);
     }
+    else if(master.get_digital(DIGITAL_Y)) {
+        intake1.move_voltage(-9000);
+    }
     else{
         intake1.move_voltage(0);
     }
-
     if(master.get_digital(DIGITAL_R1)){
         intake2.move_voltage(12000);
   }  
@@ -414,7 +416,6 @@ void opcontrol() {
     else{
         intake2.move_voltage(0);
     }
-
 
 
      

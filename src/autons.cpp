@@ -126,7 +126,7 @@ void drive_and_turn() {
 void safewp(){
   intake1.move_voltage(-12000);
   scraper.set_value(true);
-  chassis.set_drive_pid(-32, 80, true);
+  chassis.set_drive_pid(-32, 110, true);
   chassis.wait_until(-30);
   //comes back for the scrapper
   chassis.set_turn_pid(-90, TURN_SPEED);
@@ -143,22 +143,22 @@ void safewp(){
   chassis.set_drive_pid(14, DRIVE_SPEED, true);
   chassis.wait_drive();
   chassis.set_turn_pid(42, TURN_SPEED);
-  chassis.wait_until(40);
+  chassis.wait_drive();
   intake2.move_voltage(0);
   //turns for the 3 blocks
-  chassis.set_drive_pid(34, DRIVE_SPEED, true);
-  chassis.wait_until(32);
+  chassis.set_drive_pid(31, DRIVE_SPEED, true);
+  chassis.wait_until(29);
   pros::delay(200);
   //intakes the 3 blocks
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_until(2);
-  chassis.set_drive_pid(45, DRIVE_SPEED, true);
-  chassis.wait_until(43);
+  chassis.set_drive_pid(43, 90, true);
+  chassis.wait_until(41);
   //intakes the other 3 blocks
   chassis.set_turn_pid(-49, TURN_SPEED);
   chassis.wait_until(-41);
-  chassis.set_drive_pid(-19, DRIVE_SPEED, true);
-  chassis.wait_until(-14);
+  chassis.set_drive_pid(-16, DRIVE_SPEED, true);
+  chassis.wait_until(-11);
   intake2.move_voltage(-12000);
   //middle goal
   middlegoal.set_value(true);
@@ -167,19 +167,18 @@ void safewp(){
   intake2.move_voltage(0);
   scraper.set_value(true);
   chassis.set_turn_pid(-45, TURN_SPEED);
-  chassis.wait_until(-43);
-  chassis.set_drive_pid(58, DRIVE_SPEED, true);
-  chassis.wait_until(56);
+  chassis.wait_drive();
+  chassis.set_drive_pid(56.5, DRIVE_SPEED, true);
+  chassis.wait_until(54.5);
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_until(88);
-  chassis.set_drive_pid(9.5, 70, true);
-  chassis.wait_until(7.5);
-  pros::delay(80);
+  chassis.set_drive_pid(9.8, 45, true);
+  chassis.wait_until(7.8);
   chassis.set_drive_pid(-28, DRIVE_SPEED, true);
   chassis.wait_until(-23);
   intake2.move_voltage(12000);
 }
-void solowp(){
+void BottomAndLong(){
   intake1.move_voltage(-12000);
   //goes to the bot and picks up ball and pushes the bot
   scraper.set_value(true);
@@ -191,7 +190,7 @@ void solowp(){
   //turns to face the goal
   chassis.set_drive_pid(11.5, 80, true);
   chassis.wait_drive();
-  pros::delay(220); //adjusts
+  pros::delay(200); //adjusts
   chassis.set_drive_pid(-28, 70, true);
   chassis.wait_until(-26); //comes back to score
   intake2.move_voltage(12000);
@@ -209,14 +208,14 @@ void solowp(){
   pros::delay(200);
   chassis.set_drive_pid(18, 60, true);
   chassis.wait_until(16);
-  intake1.move_voltage(7000);
+  intake1.move_voltage(9000);
   pros::delay(800);
   intake2.move_voltage(-12000);
   chassis.set_drive_pid(-5, 40, true);
   chassis.wait_until(-3);
   pros::delay(200);
-  chassis.set_drive_pid(-31, DRIVE_SPEED, true);
-  chassis.wait_until(-29);
+  chassis.set_drive_pid(-30, DRIVE_SPEED, true);
+  chassis.wait_until(-28);
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_until(88);
   chassis.set_drive_pid(23, 50, true);
@@ -242,8 +241,8 @@ void sevenball(){
   chassis.wait_drive();
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-18, DRIVE_SPEED, true);  
-  chassis.wait_until(-16);
+  chassis.set_drive_pid(-16, DRIVE_SPEED, true);  
+  chassis.wait_until(-14);
   intake2.move_voltage(12000);  
   pros::delay(1200);
   //scores on long goal
@@ -251,7 +250,7 @@ void sevenball(){
   chassis.set_drive_pid(28, 55, true);  
   chassis.wait_drive();
   pros::delay(230); //adjusts
-  chassis.set_drive_pid(-30, DRIVE_SPEED, true);  
+  chassis.set_drive_pid(-30, 80, true);  
   chassis.wait_until(-25);
   intake2.move_voltage(12000);
   pros::delay(2000);
@@ -286,9 +285,9 @@ void midandlong(){
   scraper.set_value(false); //pulls scraper up
   pros::delay(1500);
   intake2.move_voltage(0);
-  chassis.set_drive_pid(16, DRIVE_SPEED, true);
-  chassis.wait_until(14);
-  chassis.set_turn_pid(-42, TURN_SPEED);
+  chassis.set_drive_pid(19, DRIVE_SPEED, true);
+  chassis.wait_until(17);
+  chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
   //turns for the 3 blocks
   chassis.set_drive_pid(10, 90, true);
@@ -297,20 +296,20 @@ void midandlong(){
   chassis.set_drive_pid(23, 90, true);
   chassis.wait_until(21);
   pros::delay(350);
-  chassis.set_turn_pid(139, 80);
+  chassis.set_turn_pid(138, 80);
   chassis.wait_drive();
-  chassis.set_drive_pid(-22, 60, true);
-  chassis.wait_until(-20);
+  chassis.set_drive_pid(-23, 60, true);
+  chassis.wait_until(-21);
   middlegoal.set_value(true);
   pros::delay(1700);
   middlegoal.set_value(false);
   chassis.set_drive_pid(35, DRIVE_SPEED, true);
   chassis.wait_drive();
+  scraper.set_value(false);
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(-23, 45, true);
   chassis.wait_until(-21);
-  scraper.set_value(false);
   }
 
 
@@ -347,10 +346,10 @@ void RedRush(){
 
 void BlueRush(){
   intake1.move_voltage(-12000);
+  scraper.set_value(true);
   chassis.set_drive_pid(-32, DRIVE_SPEED, true);
   chassis.wait_drive();
   //comes back for the scrapper
-  scraper.set_value(true);
   chassis.set_turn_pid(90, TURN_SPEED);
   chassis.wait_drive();
   //turns to face the goal
@@ -376,69 +375,69 @@ void BlueRush(){
   }
 
 void Skills(){
-  intake1.move_voltage(-12000);
   scraper.set_value(true);
+  intake1.move_voltage(-12000);
   chassis.set_drive_pid(31, DRIVE_SPEED, true); 
-  chassis.wait_until(30);
-  chassis.set_turn_pid(90, TURN_SPEED); //turns for the scraper
-  chassis.wait_until(88);
-  chassis.set_drive_pid(11, 45, true); 
   chassis.wait_drive();
-  pros::delay(2000);
+  chassis.set_turn_pid(90, TURN_SPEED); //turns for the scraper
+  chassis.wait_drive();
+  chassis.set_drive_pid(13, 35, true); 
+  chassis.wait_drive();
+  pros::delay(1000);
   chassis.set_drive_pid(-15, 64, true);
   chassis.wait_until(-13);
   scraper.set_value(false); //pulls scraper up
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(12, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(9, DRIVE_SPEED, true); 
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, -90, SWING_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(72, DRIVE_SPEED, true); 
-  chassis.wait_until(70); // goes for the other side
+  chassis.set_drive_pid(75, DRIVE_SPEED, true); 
+  chassis.wait_until(73); // goes for the other side
   pros::delay(300);
   chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_until(-178);
-  chassis.set_drive_pid(12.5, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(12, DRIVE_SPEED, true); 
   chassis.wait_drive();
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-10, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(-12, 60, true); 
   chassis.wait_drive();
   intake2.move_voltage(12000);
   scraper.set_value(true);
-  pros::delay(3000); //intakes on the right side all 6 blocks
+  pros::delay(4000); //intakes on the right side all 6 blocks
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
-  //intake2.move_voltage(0);
-  chassis.set_drive_pid(31.5, 45, true); 
-  chassis.wait_drive(); //adjusts for the scrapper
   intake2.move_voltage(0);
-  pros::delay(2000);
-  chassis.set_drive_pid(-30, 60, true); 
-  chassis.wait_until(-28);
+  //intake2.move_voltage(0);
+  chassis.set_drive_pid(32, 35, true); 
+  chassis.wait_drive(); //adjusts for the scprapper
+  pros::delay(1000);
+  chassis.set_drive_pid(-31, 60, true); 
+  chassis.wait_until(-29);
   intake2.move_voltage(12000);
-  pros::delay(3000); //scores the 6 blocks
+  pros::delay(4000); //scores the 6 blocks
   //intake2.move_voltage(0);
   chassis.set_drive_pid(15, DRIVE_SPEED, true); 
   chassis.wait_until(13);
   chassis.set_turn_pid(-180, TURN_SPEED);
-  chassis.wait_until(-178);
-  chassis.set_drive_pid(99, DRIVE_SPEED, true); 
+  chassis.wait_drive();
+  chassis.set_drive_pid(97, DRIVE_SPEED, true); 
   chassis.wait_drive(); //goes for the other side
   pros::delay(300);
   chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_until(-88);
-  chassis.set_drive_pid(18, 45, true); 
-  chassis.wait_drive(); //adjust for the scrapper
+  chassis.wait_drive();
   intake2.move_voltage(0);
-  pros::delay(2000);
+  chassis.set_drive_pid(20, 35, true); 
+  chassis.wait_drive(); //adjust for the scrapper
+  pros::delay(1000);
   chassis.set_drive_pid(-15, 64, true);
   chassis.wait_until(-13);
   scraper.set_value(false); //pulls scraper up
   chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive(); //turns for the other side
-  chassis.set_drive_pid(8, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(6, DRIVE_SPEED, true); 
   chassis.wait_drive();
   chassis.set_swing_pid(ez::RIGHT_SWING, -270, SWING_SPEED);
   chassis.wait_drive();
@@ -447,33 +446,32 @@ void Skills(){
   pros::delay(300);
   chassis.set_turn_pid(-180, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-11, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(-11.5, DRIVE_SPEED, true); 
   chassis.wait_drive();
   chassis.set_turn_pid(-270, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-16, 60, true); 
+  chassis.set_drive_pid(-14, 60, true); 
   chassis.wait_drive();
   intake2.move_voltage(12000);
   scraper.set_value(true);
-  pros::delay(3000); //intakes on the right side all 6 blocks
+  pros::delay(4000); //intakes on the right side all 6 blocks
   chassis.set_turn_pid(-270, TURN_SPEED);
   chassis.wait_drive();
-  //intake2.move_voltage(0);
-  chassis.set_drive_pid(32, 45, true); 
-  chassis.wait_drive();
   intake2.move_voltage(0);
-  pros::delay(2000);
-  chassis.set_drive_pid(-30, 60, true); 
-  chassis.wait_until(-28);
+  chassis.set_drive_pid(34, 35, true); 
+  chassis.wait_drive();
+  pros::delay(1000);
+  chassis.set_drive_pid(-32, 60, true); 
+  chassis.wait_until(-30);
   intake2.move_voltage(12000);
-  pros::delay(3000); //scores the 6 blocks
+  pros::delay(4000); //scores the 6 blocks
   //intake2.move_voltage(0);
   chassis.set_drive_pid(15, DRIVE_SPEED, true); 
   chassis.wait_until(13);
   scraper.set_value(false);
   chassis.set_turn_pid(-120, TURN_SPEED);
   chassis.wait_drive(); //turns for park
-  chassis.set_drive_pid(-18, DRIVE_SPEED, true); 
+  chassis.set_drive_pid(-21, DRIVE_SPEED, true); 
   chassis.wait_drive();
   chassis.set_swing_pid(ez::LEFT_SWING, -180, SWING_SPEED);
   chassis.wait_drive();
