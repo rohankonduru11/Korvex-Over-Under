@@ -21,7 +21,7 @@ Drive chassis (
   ,{10, 8, 19}	
 
   // IMU Port
-  ,20
+  ,18
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -367,15 +367,18 @@ void autonomous() {
 bool clamp1 = false;
 bool clamp2 = false;
 bool clamp3 = false;
+bool clamp4 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   pros::IMU imu(18);
-  pros::ADIDigitalOut middlegoal('H', false);
+  pros::ADIDigitalOut hood('H', false);
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);
-  pros::Motor intake1(3);
-  pros::Motor intake2(14);
+  pros::ADIDigitalOut middescore('C', false);
+  pros::Motor topstage(3);
+  pros::Motor middlestage(14);
+  pros::Motor bottomstage(14);
   pros::Controller master(pros::E_CONTROLLER_MASTER);
   
   while (true) {
@@ -394,38 +397,36 @@ void opcontrol() {
     // . . .
     // intake code
     if(master.get_digital(DIGITAL_L1)){
-        intake1.move_voltage(-12000);
+        topstage.move_voltage(-12000);
+        middlestage.move_voltage(-12000);
+        bottomstage.move_voltage(-12000);
   }  
     
     else if(master.get_digital(DIGITAL_L2)){
-        intake1.move_voltage(12000);
+        topstage.move_voltage(12000);
+        middlestage.move_voltage(12000);
+        bottomstage.move_voltage(12000);
     }
-    else if(master.get_digital(DIGITAL_Y)) {
-        intake1.move_voltage(-9000);
-    }
-    else{
-        intake1.move_voltage(0);
-    }
-    if(master.get_digital(DIGITAL_R1)){
-        intake2.move_voltage(12000);
-  }  
-    
     else if(master.get_digital(DIGITAL_R2)){
-        intake2.move_voltage(-12000);
+        topstage.move_voltage(12000);
+        middlestage.move_voltage(-12000);
+        bottomstage.move_voltage(-12000);
     }
     else{
-        intake2.move_voltage(0);
+        topstage.move_voltage(0);
+        middlestage.move_voltage(0);
+        bottomstage.move_voltage(0);
     }
 
 
      
-	if(master.get_digital_new_press(DIGITAL_X)){
+	if(master.get_digital_new_press(DIGITAL_R1)){
       if(clamp1 == false) {
-          middlegoal.set_value(true);
+          hood.set_value(true);
 		  clamp1 = true;
       }	
 	  else if(clamp1 == true) {
-          middlegoal.set_value(false);
+          hood.set_value(false);
 		  clamp1 = false;
       }
 	}
@@ -453,5 +454,18 @@ void opcontrol() {
         clamp3 = false;
       }
 }
+
+  if(master.get_digital_new_press(DIGITAL_Y)) {
+    if(clamp4 == false) {
+        middescore.set_value(true);
+        clamp4 = true;
+      }
+    else if(clamp4 == true) {
+        middescore.set_value(false);
+        clamp4 = false;
+      }
+  }
+
+    pros::delay(20);
   }
 }

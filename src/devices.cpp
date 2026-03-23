@@ -1,12 +1,15 @@
 #include "main.h"
 
 pros::Motor wallstake(-9, pros::E_MOTOR_GEARSET_36, false);
-pros::Motor intake1(3, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor intake2(14, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor topstage(3, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor middlestage(14, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor bottomstage(14, pros::E_MOTOR_GEARSET_06, false);
 
-pros::ADIDigitalOut middlegoal('H', false);
+
+pros::ADIDigitalOut hood('H', false);
 pros::ADIDigitalOut descore('F', false);
 pros::ADIDigitalOut scraper('B', false);
+pros::ADIDigitalOut middescore('C', false);
 
 pros::Motor lF(-1, pros::E_MOTOR_GEARSET_06); // left front motor. port 9, reversed
 pros::Motor lB(-2, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
@@ -20,4 +23,4 @@ pros::Motor rB2(19, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
 // motor groups
 pros::MotorGroup leftMotors({lF, lB2, lB}); // left motor group
 pros::MotorGroup rightMotors({rF, rB2, rB}); // right motor group
-pros::Imu imu(20);
+pros::Imu imu(18);

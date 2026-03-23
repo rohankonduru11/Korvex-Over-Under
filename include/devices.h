@@ -1,10 +1,12 @@
 #include "main.h"
-extern pros::Motor intake1;
-extern pros::Motor intake2;
+extern pros::Motor topstage;
+extern pros::Motor middlestage;
+extern pros::Motor bottomstage;
 
-extern pros::ADIDigitalOut middlegoal;
+extern pros::ADIDigitalOut hood;
 extern pros::ADIDigitalOut descore;
 extern pros::ADIDigitalOut scraper;
+extern pros::ADIDigitalOut middescore;
 extern pros::Motor lF;
 extern pros::Motor lB;
 extern pros::Motor lB2;
