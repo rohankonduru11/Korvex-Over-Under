@@ -1,9 +1,8 @@
 #include "main.h"
 
-pros::Motor wallstake(-9, pros::E_MOTOR_GEARSET_36, false);
-pros::Motor topstage(3, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor middlestage(14, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor bottomstage(14, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor topstage(2, pros::E_MOTOR_GEARSET_18, false);
+pros::Motor middlestage(1, pros::E_MOTOR_GEARSET_18, false);
+pros::Motor bottomstage(-10, pros::E_MOTOR_GEARSET_06, false);
 
 
 pros::ADIDigitalOut hood('H', false);

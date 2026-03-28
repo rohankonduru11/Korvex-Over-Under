@@ -11,3 +11,5 @@ inline int intake_speed;
 inline int target = 0;
 inline const int numStates = 6;
 inline int states[numStates] = {0, 4450, 17500, 9500, 27000, 23000};
+void intake();
+void outtake();

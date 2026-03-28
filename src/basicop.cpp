@@ -7,27 +7,14 @@ void wait(int sec) {
   pros::delay(sec);
 }
 
-void deployintake() {
+void intake() {
+  bottomstage.move_voltage(12000);
+  middlestage.move_voltage(12000);
+  topstage.move_voltage(-12000);
 }
 
 void outtake() {
-}
-
-
-void intaketriball() {
-}
-
-void stopintake() {
-}
-
-void expandWings() {
-}
-
-void retractWings() {
-}
-
-void shootCata() {
-}
-
-void stopCata() {
-}
+  bottomstage.move_voltage(-12000);
+  middlestage.move_voltage(-12000);
+  topstage.move_voltage(-12000);
+} 

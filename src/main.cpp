@@ -376,15 +376,12 @@ void opcontrol() {
   pros::ADIDigitalOut descore('F', false);
   pros::ADIDigitalOut scraper('B', false);
   pros::ADIDigitalOut middescore('C', false);
-  pros::Motor topstage(3);
-  pros::Motor middlestage(14);
-  pros::Motor bottomstage(14);
+  pros::Motor topstage(2);
+  pros::Motor middlestage(1);
+  pros::Motor bottomstage(-10);
   pros::Controller master(pros::E_CONTROLLER_MASTER);
   
   while (true) {
-  
-  
-
 
     chassis.tank(); // Tank control
      //chassis.arcade_standard(ez::SPLIT); // Standard split arcade
@@ -393,32 +390,42 @@ void opcontrol() {
      //chassis.arcade_flipped(ez::SINGLE); // Flipped single arcade
 
     // . . .
+
     // Put more user control code here!
     // . . .
     // intake code
     if(master.get_digital(DIGITAL_L1)){
-        topstage.move_voltage(-12000);
-        middlestage.move_voltage(-12000);
-        bottomstage.move_voltage(-12000);
+      topstage.move_voltage(12000);
+      middlestage.move_voltage(12000);
+      bottomstage.move_voltage(-12000);
   }  
     
     else if(master.get_digital(DIGITAL_L2)){
-        topstage.move_voltage(12000);
-        middlestage.move_voltage(12000);
-        bottomstage.move_voltage(12000);
-    }
-    else if(master.get_digital(DIGITAL_R2)){
-        topstage.move_voltage(12000);
-        middlestage.move_voltage(-12000);
-        bottomstage.move_voltage(-12000);
+      topstage.move_voltage(-12000);
+      middlestage.move_voltage(-12000);
+      bottomstage.move_voltage(12000);
     }
     else{
-        topstage.move_voltage(0);
-        middlestage.move_voltage(0);
-        bottomstage.move_voltage(0);
+      topstage.move_voltage(0);
+      middlestage.move_voltage(0);
+      bottomstage.move_voltage(0);
+    }
+    if(master.get_digital_new_press(DIGITAL_Y)){
+      topstage.move_voltage(12000);
+      middlestage.move_voltage(-12000);
+      bottomstage.move_voltage(12000);
+      pros::delay(200);
+      topstage.move_voltage(0);
+      middlestage.move_voltage(0);
+      bottomstage.move_voltage(0);
     }
 
-
+    if(master.get_digital(DIGITAL_R2)){
+      topstage.move_voltage(-12000);
+      middlestage.move_voltage(12000);
+      bottomstage.move_voltage(-12000);
+    }
+      
      
 	if(master.get_digital_new_press(DIGITAL_R1)){
       if(clamp1 == false) {
