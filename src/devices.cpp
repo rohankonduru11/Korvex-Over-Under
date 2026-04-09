@@ -5,10 +5,10 @@ pros::Motor middlestage(1, pros::E_MOTOR_GEARSET_18, false);
 pros::Motor bottomstage(-10, pros::E_MOTOR_GEARSET_06, false);
 
 
-pros::ADIDigitalOut hood('H', false);
-pros::ADIDigitalOut descore('F', false);
-pros::ADIDigitalOut scraper('B', false);
-pros::ADIDigitalOut middescore('C', false);
+pros::ADIDigitalOut hood('A', false);
+pros::ADIDigitalOut descore('B', false);
+pros::ADIDigitalOut scraper('C', false);
+pros::ADIDigitalOut middescore('E', false);
 
 pros::Motor lF(-1, pros::E_MOTOR_GEARSET_06); // left front motor. port 9, reversed
 pros::Motor lB(-2, pros::E_MOTOR_GEARSET_06); // left back motor. port 21, reversed
@@ -22,4 +22,4 @@ pros::Motor rB2(19, pros::E_MOTOR_GEARSET_06); // right back motor. port 16
 // motor groups
 pros::MotorGroup leftMotors({lF, lB2, lB}); // left motor group
 pros::MotorGroup rightMotors({rF, rB2, rB}); // right motor group
-pros::Imu imu(18);
+pros::Imu imu(14);

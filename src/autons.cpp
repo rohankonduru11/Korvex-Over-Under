@@ -121,13 +121,13 @@ void drive_and_turn() {
 
   chassis.set_drive_pid(-24, DRIVE_SPEED, true);
   chassis.wait_drive();
-}
+} 
 
 void safewp(){
   intake();
   scraper.set_value(true);
-  chassis.set_drive_pid(-32, 110, true);
-  chassis.wait_until(-30);
+  chassis.set_drive_pid(-28, 110, true);
+  chassis.wait_until(-26);
   //comes back for the scrapper
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
@@ -135,12 +135,14 @@ void safewp(){
   chassis.set_drive_pid(11.5, 75, true);
   chassis.wait_drive();
   pros::delay(100); //adjusts 300 beforepro
-  chassis.set_drive_pid(-28, 70, true);
+  chassis.set_drive_pid(-28, 60, true);
   chassis.wait_until(-23); //comes back to score
+  hood.set_value(false);
   scraper.set_value(false);
   pros::delay(1300); //1300
   chassis.set_drive_pid(14, DRIVE_SPEED, true);
   chassis.wait_drive();
+  hood.set_value(true);
   chassis.set_turn_pid(42, TURN_SPEED);
   chassis.wait_drive();
   //turns for the 3 blocks
@@ -153,27 +155,23 @@ void safewp(){
   chassis.set_drive_pid(45, 90, true);
   chassis.wait_until(43);
   //intakes the other 3 blocks
-  chassis.set_turn_pid(-49, TURN_SPEED);
-  chassis.wait_until(-41);
-  chassis.set_drive_pid(-16, DRIVE_SPEED, true);
-  chassis.wait_until(-11);
-  //middle goal macro add here
-  pros::delay(850);
-  //MIDDLE GOAL MACRO HERE
-  scraper.set_value(true);
   chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.wait_until(-43);
+  chassis.set_drive_pid(15, DRIVE_SPEED, true);
+  chassis.wait_until(10);
+  middlegoal();
+  pros::delay(300); //scores on middle
+  intake();
+  chassis.set_drive_pid(40, DRIVE_SPEED, true); //turns for last 3 matchload
+  chassis.wait_until(38);
+  chassis.set_turn_pid(50, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(54.5, DRIVE_SPEED, true);
-  chassis.wait_until(52.5);
-  chassis.set_turn_pid(-90, TURN_SPEED);
-  chassis.wait_until(88);
-  chassis.set_drive_pid(10.7, 45, true);
-  chassis.wait_until(8.7);
-  pros::delay(50);
-  chassis.set_drive_pid(-28, DRIVE_SPEED, true);
-  chassis.wait_until(-23);
-  pros::delay(500);
-  pros::delay(100);
+  chassis.set_drive_pid(30, 40); //gets matchlodas
+  chassis.wait_drive();
+  chassis.set_drive_pid(-30, 90); //comes back to score
+  hood.set_value(true);
+
+
 }
 void BottomAndLong(){
   intake();
@@ -191,21 +189,19 @@ void BottomAndLong(){
   chassis.set_drive_pid(-28, 70, true);
   chassis.wait_until(-26); //comes back to score
   scraper.set_value(false); //pulls scraper up
+  hood.set_value(false);
   pros::delay(1500);
   chassis.set_drive_pid(18, DRIVE_SPEED, true);
   chassis.wait_until(15);
+  hood.set_value(true);
   chassis.set_turn_pid(45, TURN_SPEED);
   chassis.wait_drive();
   pros::delay(100);
-  chassis.set_drive_pid(35, 60, true);
-  chassis.wait_until(33);
+  chassis.set_drive_pid(53, 60, true);
+  chassis.wait_until(50);
   pros::delay(600);  
-  chassis.set_drive_pid(18, 60, true);
-  chassis.wait_until(16);
+  outtake();
   pros::delay(1000);
-  chassis.set_drive_pid(-5, 40, true);
-  chassis.wait_until(-3);
-  pros::delay(200);
   chassis.set_drive_pid(-31, DRIVE_SPEED, true);
   chassis.wait_until(-29);
   chassis.set_turn_pid(90, TURN_SPEED);
@@ -233,15 +229,13 @@ void sevenball(){
   chassis.wait_drive();
   chassis.set_turn_pid(180, TURN_SPEED);
   chassis.wait_drive();
-  chassis.set_drive_pid(-16, DRIVE_SPEED, true);  
-  chassis.wait_until(-14);
-  pros::delay(1200);
   //scores on long goal
-  chassis.set_drive_pid(28, 55, true);  
+  chassis.set_drive_pid(11, 55, true);  
   chassis.wait_drive();
   pros::delay(230); //adjusts
   chassis.set_drive_pid(-30, 80, true);  
   chassis.wait_until(-25);
+  hood.set_value(false);
   pros::delay(2000);
   scraper.set_value(false);
   chassis.set_drive_pid(9, DRIVE_SPEED, true);
@@ -270,9 +264,11 @@ void midandlong(){
   chassis.set_drive_pid(-30, 64, true);
   chassis.wait_until(-28); //comes back to score
   scraper.set_value(false); //pulls scraper up
+  hood.set_value(false);
   pros::delay(1500);
   chassis.set_drive_pid(19, DRIVE_SPEED, true);
   chassis.wait_until(17);
+  hood.set_value(true);
   chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
   //turns for the 3 blocks
@@ -286,8 +282,8 @@ void midandlong(){
   chassis.wait_drive();
   chassis.set_drive_pid(-23, 60, true);
   chassis.wait_until(-21);
+  middlegoal();
   pros::delay(1700);
-  //MIDDLE GOAL MACRO HERE
   chassis.set_drive_pid(35, DRIVE_SPEED, true);
   chassis.wait_drive();
   scraper.set_value(false);
@@ -298,33 +294,51 @@ void midandlong(){
   }
 
 
-void RedRush(){
+void countersolo(){
   intake();
-  //goes to the bot and picks up ball and pushes the bot
-  chassis.set_drive_pid(-32, DRIVE_SPEED, true);
-  chassis.wait_drive();
-  //comes back for the scrapper
   scraper.set_value(true);
+  chassis.set_drive_pid(-28, 110, true);
+  chassis.wait_until(-26);
+  //comes back for the scrapper
   chassis.set_turn_pid(-90, TURN_SPEED);
   chassis.wait_drive();
   //turns to face the goal
-  chassis.set_drive_pid(11.5, 45, true);
+  chassis.set_drive_pid(12, 75, true);
   chassis.wait_drive();
-  pros::delay(220); //adjusts
-  chassis.set_drive_pid(-28, 64, true);
-  chassis.wait_until(-26); //comes back to score
-  scraper.set_value(false); //pulls scraper up
-  pros::delay(1500);
-  chassis.set_drive_pid(9, DRIVE_SPEED, true);
-  chassis.wait_until(11);
+  pros::delay(100); //adjusts 300 beforepro
+  chassis.set_drive_pid(-28, 60, true);
+  chassis.wait_until(-23); //comes back to score
+  hood.set_value(false);
+  scraper.set_value(false);
+  pros::delay(1300); //1300
+  chassis.set_drive_pid(14, DRIVE_SPEED, true);
+  chassis.wait_drive();
+  hood.set_value(true);
+  chassis.set_turn_pid(42, TURN_SPEED);
+  chassis.wait_drive();
+  //turns for the 3 blocks
+  chassis.set_drive_pid(31, DRIVE_SPEED, true);
+  chassis.wait_until(29);
+  pros::delay(200);
+  //intakes the 3 blocks
   chassis.set_turn_pid(0, TURN_SPEED);
-  chassis.wait_drive();
-  chassis.set_drive_pid(-12, DRIVE_SPEED, true); 
-  chassis.wait_until(-12);
-  chassis.set_turn_pid(-90, TURN_SPEED); //turn for the 3 blocks and get control
-  chassis.wait_drive();
-  chassis.set_drive_pid(-30, 80, true);
-  chassis.wait_until(-28);
+  chassis.wait_until(2);
+  chassis.set_drive_pid(45, 90, true);
+  chassis.wait_until(43);
+  chassis.set_turn_pid(-45, TURN_SPEED);
+  chassis.wait_until(-43);
+  chassis.set_drive_pid(30, DRIVE_SPEED, true);
+  chassis.wait_until(28);
+  chassis.set_turn_pid(-90, TURN_SPEED);
+  chassis.wait_until(88);
+  chassis.set_drive_pid(-22, DRIVE_SPEED, true);
+  chassis.wait_until(-17);
+  hood.set_value(false);
+  pros::delay(1000);
+  scraper.set_value(true);
+  chassis.set_drive_pid(33, DRIVE_SPEED, true);
+  chassis.wait_until(30);
+
   }
 
 void BlueRush(){

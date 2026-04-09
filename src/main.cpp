@@ -14,18 +14,18 @@ using namespace std;
 Drive chassis (
   // Left Chassis Ports (negati	cve port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  {-1, -2, -11}
+  {-11, -12, -13}
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
-  ,{10, 8, 19}	
+  ,{18, 19, 20}	
 
   // IMU Port
-  ,18
+  ,14
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
-  ,2.75
+  ,3.25
 
   // Cartridge RPM
   //   (or tick per rotation if using tracking wheels)
@@ -58,7 +58,7 @@ enum class autonStates { // the possible auton selections
 	BottomAndLong,
   safewp,
   sevenball,
-  Redrush,
+  countersolo,
   midandlong,
   Bluerush,
 	Skills,
@@ -84,9 +84,9 @@ static lv_res_t SevenBallAction(lv_obj_t *btn) {
 	return LV_RES_OK;
 }
 
-static lv_res_t RedRushAction(lv_obj_t *btn) {
-	autonSelection = autonStates::Redrush;
-	std::cout << pros::millis() << "Redrush" << std::endl;
+static lv_res_t CounterSoloAction(lv_obj_t *btn) {
+	autonSelection = autonStates::countersolo;
+	std::cout << pros::millis() << "CounterSolo" << std::endl;
 	return LV_RES_OK;
 }
 
@@ -158,8 +158,8 @@ void initialize() {
 	lv_obj_t *SevenBallBtn = lv_btn_create(RightTab, NULL);
 	lv_obj_t *labelSevenBall = lv_label_create(SevenBallBtn, NULL);
 
-	lv_obj_t *RedRushBtn = lv_btn_create(RightTab, NULL);
-	lv_obj_t *labelRedRush = lv_label_create(RedRushBtn, NULL);
+	lv_obj_t *CounterSoloBtn = lv_btn_create(RightTab, NULL);
+	lv_obj_t *labelCounterSolo = lv_label_create(CounterSoloBtn, NULL);
 
 
 	
@@ -188,12 +188,12 @@ void initialize() {
 	lv_obj_set_pos(SevenBallBtn, 0, 0);
 	lv_obj_align(SevenBallBtn, NULL, LV_ALIGN_CENTER, 0, 0);
 
-  lv_label_set_text(labelRedRush, "Redrush");
-	lv_btn_set_action(RedRushBtn, LV_BTN_ACTION_CLICK, RedRushAction);
-	lv_obj_set_size(RedRushBtn, 150, 50);
-	lv_btnm_set_toggle(RedRushBtn, true, 1);
-	lv_obj_set_pos(RedRushBtn, 0, 0);
-	lv_obj_align(RedRushBtn, NULL, LV_ALIGN_CENTER, 150, 0);
+  lv_label_set_text(labelCounterSolo, "countersolo");
+	lv_btn_set_action(CounterSoloBtn, LV_BTN_ACTION_CLICK, CounterSoloAction);
+	lv_obj_set_size(CounterSoloBtn, 150, 50);
+	lv_btnm_set_toggle(CounterSoloBtn, true, 1);
+	lv_obj_set_pos(CounterSoloBtn, 0, 0);
+	lv_obj_align(CounterSoloBtn, NULL, LV_ALIGN_CENTER, 150, 0);
   
   lv_label_set_text(labelMidAndLong, "midandlong");
   lv_btn_set_action(MidAndLongBtn, LV_BTN_ACTION_CLICK, MidAndLongAction);
@@ -330,8 +330,8 @@ void autonomous() {
     case autonStates::safewp:
 			safewp();
 			break;
-    case autonStates::Redrush:
-      RedRush();
+    case autonStates::countersolo:
+      countersolo();
       break;
     case autonStates::midandlong:
 			midandlong();
@@ -371,11 +371,11 @@ bool clamp4 = false;
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  pros::IMU imu(18);
-  pros::ADIDigitalOut hood('H', false);
-  pros::ADIDigitalOut descore('F', false);
+  pros::IMU imu(14);
+  pros::ADIDigitalOut hood('A', false);
+  pros::ADIDigitalOut descore('C', false);
   pros::ADIDigitalOut scraper('B', false);
-  pros::ADIDigitalOut middescore('C', false);
+  pros::ADIDigitalOut middescore('E', false);
   pros::Motor topstage(2);
   pros::Motor middlestage(1);
   pros::Motor bottomstage(-10);
@@ -411,13 +411,12 @@ void opcontrol() {
       bottomstage.move_voltage(0);
     }
     if(master.get_digital_new_press(DIGITAL_Y)){
-      topstage.move_voltage(12000);
+      topstage.move_voltage(-12000);
       middlestage.move_voltage(-12000);
       bottomstage.move_voltage(12000);
-      pros::delay(200);
+      pros::delay(140);
       topstage.move_voltage(0);
       middlestage.move_voltage(0);
-      bottomstage.move_voltage(0);
     }
 
     if(master.get_digital(DIGITAL_R2)){
@@ -425,21 +424,32 @@ void opcontrol() {
       middlestage.move_voltage(12000);
       bottomstage.move_voltage(-12000);
     }
-      
+    
+    if(master.get_digital(DIGITAL_X)){
+      topstage.move_voltage(-9000);
+      middlestage.move_voltage(9000);
+      bottomstage.move_voltage(-12000);
+    }
+    if(master.get_digital(DIGITAL_UP)){
+      topstage.move_voltage(-9000);
+      middlestage.move_voltage(-9000);
+      bottomstage.move_voltage(9000);
+    }
+
      
 	if(master.get_digital_new_press(DIGITAL_R1)){
-      if(clamp1 == false) {
-          hood.set_value(true);
-		  clamp1 = true;
-      }	
-	  else if(clamp1 == true) {
+      if(clamp1 == true) {
           hood.set_value(false);
 		  clamp1 = false;
+      }	
+	  else if(clamp1 == false) {
+          hood.set_value(true);
+		  clamp1 = true;
       }
 	}
 
 
-  if(master.get_digital_new_press(DIGITAL_B)) {
+  if(master.get_digital_new_press(DIGITAL_DOWN)) {
     if(clamp2 == false) {
         descore.set_value(true);
         clamp2 = true;
@@ -451,7 +461,7 @@ void opcontrol() {
   }
 
 
-  if(master.get_digital_new_press(DIGITAL_DOWN)) {
+  if(master.get_digital_new_press(DIGITAL_B)) {
     if(clamp3 == false) {
         scraper.set_value(true);
         clamp3 = true;
@@ -462,7 +472,7 @@ void opcontrol() {
       }
 }
 
-  if(master.get_digital_new_press(DIGITAL_Y)) {
+  if(master.get_digital_new_press(DIGITAL_RIGHT)) {
     if(clamp4 == false) {
         middescore.set_value(true);
         clamp4 = true;

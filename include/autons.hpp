@@ -22,7 +22,7 @@ void BottomAndLong();
 void safewp();
 void sevenball();
 void midandlong();
-void RedRush();
+void countersolo();
 void BlueRush();
 void Skills();
 void test();
