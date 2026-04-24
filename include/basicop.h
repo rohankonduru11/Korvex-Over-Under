@@ -15,3 +15,4 @@ void intake();
 void outtake();
 void stopIntake();
 void middlegoal(); 
+void stopintake();

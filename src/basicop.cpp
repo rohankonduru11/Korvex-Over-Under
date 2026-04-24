@@ -14,7 +14,7 @@ void intake() {
 }
 
 void outtake() {
-  bottomstage.move_voltage(12000);
+  bottomstage.move_voltage(9000);
   middlestage.move_voltage(-12000);
   topstage.move_voltage(-12000);
 }
@@ -26,6 +26,11 @@ void stopIntake() {
 }
 void middlegoal(){
   bottomstage.move_voltage(-12000);
-  middlestage.move_voltage(12000);
-  topstage.move_voltage(-12000);
+  middlestage.move_voltage(3000);
+  topstage.move_voltage(-4700);
+}
+void stopintake() {
+  bottomstage.move_voltage(0);
+  middlestage.move_voltage(0);
+  topstage.move_voltage(0);
 }

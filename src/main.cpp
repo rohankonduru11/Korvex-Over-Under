@@ -60,7 +60,7 @@ enum class autonStates { // the possible auton selections
   sevenball,
   countersolo,
   midandlong,
-  Bluerush,
+  sevenleft,
 	Skills,
 	test
 };
@@ -95,9 +95,9 @@ static lv_res_t MidAndLongAction(lv_obj_t *btn) {
 	std::cout << pros::millis() << "midandlong" << std::endl;
 	return LV_RES_OK;
 }
-static lv_res_t BlueRushAction(lv_obj_t *btn) {
-	autonSelection = autonStates::Bluerush;
-	std::cout << pros::millis() << "Bluerush" << std::endl;
+static lv_res_t SevenLeftAction(lv_obj_t *btn) {
+	autonSelection = autonStates::sevenleft;
+	std::cout << pros::millis() << "sevenleft" << std::endl;
 	return LV_RES_OK;
 }
 static lv_res_t SkillsBtnAction(lv_obj_t *btn) {
@@ -168,8 +168,8 @@ void initialize() {
 	lv_obj_t *MidAndLongBtn = lv_btn_create(LeftTab, NULL);
 	lv_obj_t *labelMidAndLong = lv_label_create(MidAndLongBtn, NULL);
 
-	lv_obj_t *BlueRushBtn = lv_btn_create(LeftTab, NULL);
-	lv_obj_t *labelBlueRush = lv_label_create(BlueRushBtn, NULL);
+	lv_obj_t *sevenleftBtn = lv_btn_create(LeftTab, NULL);
+	lv_obj_t *labelSevenLeft = lv_label_create(sevenleftBtn, NULL);
 
   lv_obj_t *SafeWpBtn = lv_btn_create(LeftTab, NULL);
 	lv_obj_t *labelSafeWp = lv_label_create(SafeWpBtn, NULL);
@@ -202,12 +202,12 @@ void initialize() {
   lv_obj_set_pos(MidAndLongBtn, 0, 0);
   lv_obj_align(MidAndLongBtn, NULL, LV_ALIGN_CENTER, 0, 0);
 
-  lv_label_set_text(labelBlueRush, "bluerush");
-  lv_btn_set_action(BlueRushBtn, LV_BTN_ACTION_CLICK, BlueRushAction);
-  lv_obj_set_size(BlueRushBtn, 150, 50);
-  lv_btnm_set_toggle(BlueRushBtn, true, 1);
-  lv_obj_set_pos(BlueRushBtn, 0, 0);
-  lv_obj_align(BlueRushBtn, NULL, LV_ALIGN_CENTER, 150, 0);
+  lv_label_set_text(labelSevenLeft, "sevenleft");
+  lv_btn_set_action(sevenleftBtn, LV_BTN_ACTION_CLICK, SevenLeftAction);
+  lv_obj_set_size(sevenleftBtn, 150, 50);
+  lv_btnm_set_toggle(sevenleftBtn, true, 1);
+  lv_obj_set_pos(sevenleftBtn, 0, 0);
+  lv_obj_align(sevenleftBtn, NULL, LV_ALIGN_CENTER, 150, 0);
 
     lv_label_set_text(labelSafeWp, "safewp");
   lv_btn_set_action(SafeWpBtn, LV_BTN_ACTION_CLICK, SafeWpAction);
@@ -336,8 +336,8 @@ void autonomous() {
     case autonStates::midandlong:
 			midandlong();
 			break;
-    case autonStates::Bluerush:
-			BlueRush();
+    case autonStates::sevenleft:
+			sevenleft();
 			break;
     case autonStates::Skills:
 			Skills();
@@ -421,19 +421,19 @@ void opcontrol() {
 
     if(master.get_digital(DIGITAL_R2)){
       topstage.move_voltage(-12000);
-      middlestage.move_voltage(12000);
+      middlestage.move_voltage(10000);
       bottomstage.move_voltage(-12000);
     }
     
     if(master.get_digital(DIGITAL_X)){
       topstage.move_voltage(-9000);
-      middlestage.move_voltage(9000);
+      middlestage.move_voltage(6000);
       bottomstage.move_voltage(-12000);
     }
     if(master.get_digital(DIGITAL_UP)){
-      topstage.move_voltage(-9000);
-      middlestage.move_voltage(-9000);
-      bottomstage.move_voltage(9000);
+      topstage.move_voltage(-12000);
+      middlestage.move_voltage(-12000);
+      bottomstage.move_voltage(10000);
     }
 
      
